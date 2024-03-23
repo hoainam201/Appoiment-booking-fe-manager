@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+    h1{
+        @apply text-5xl;
+    }
+    h2{
+        @apply text-2xl;
+    }
+    h3{
+        @apply text-xl;
+    }
+    p{
+        @apply text-base font-normal;
+    }
+    a{
+        @apply text-blue-500;
+    }
+    blockquote{
+        @apply border-l-4 border-gray-300 pl-4 italic;
+    }
+    u{
+        @apply underline;
+    };
+}

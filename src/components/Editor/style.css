@@ -1,0 +1,14 @@
+/*body {*/
+/*    font-family: sans-serif;*/
+/*    margin: 10px 40px;*/
+/*}*/
+
+textarea {
+    width: 45%;
+    margin-right: 10px;
+}
+
+.viewer {
+    border: 1px solid #cccccc;
+    padding: 5px;
+}

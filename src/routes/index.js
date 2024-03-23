@@ -5,4 +5,8 @@ export const NormalRoutes = [
     path: "/",
     element: <Pages.AppoimentList/>
   },
+  {
+    path: "/guide",
+    element: <Pages.CreateGuide/>
+  }
 ]
