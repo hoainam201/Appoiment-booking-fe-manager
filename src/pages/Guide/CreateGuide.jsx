@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function CreateGuide() {
   const [editorHtmlValue, setEditorHtmlValue] = useState("");
-  const [htmlValue, setHtmlValue] = useState(initialMarkdownContent);
+  const [content, setContent] = useState(initialMarkdownContent);
   const [editorMarkdownValue, setEditorMarkdownValue] = useState("");
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = useState("");
@@ -39,7 +39,7 @@ export default function CreateGuide() {
   }
 
   const handleSave = (content) => {
-    setHtmlValue(editorHtmlValue);
+    setContent(editorMarkdownValue);
     setOpen(false);
   }
 
@@ -47,10 +47,11 @@ export default function CreateGuide() {
     <div className="flex flex-col max-h-[75vh]">
       <h1 className={`text-3xl font-bold text-center`}>Tạo bài viết</h1>
       <div className={`flex flex-col items-start`}>
-        <p className={`text-xl font-bold`}>Tiêu đề bài viết</p>
+        <p className={`text-xl font-bold`}>Bài viết mới</p>
         <input
           className={`w-full outline-1 border-2 border-gray-200 p-2 rounded-lg text-base focus:outline-blue-500`}
           type="text"
+          placeholder="Tên bài viết"
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
@@ -71,11 +72,11 @@ export default function CreateGuide() {
         </div>
       </div>
       <div className="viewer max-h-[500px] overflow-auto rounded-lg">
-        <Viewer value={htmlValue} />
+        <Viewer value={content} />
       </div>
       <div className={`flex items-center h-12 w-full justify-between`}>
-        <Button variant="contained" color="primary">Cancel</Button>
-        <Button variant="contained" color="primary">Save</Button>
+        <Button variant="outlined" color="primary">Hủy</Button>
+        <Button variant="contained" color="primary">Tạo</Button>
       </div>
       <Dialog
         fullScreen

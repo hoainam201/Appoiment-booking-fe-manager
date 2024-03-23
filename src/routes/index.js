@@ -6,7 +6,11 @@ export const NormalRoutes = [
     element: <Pages.AppoimentList/>
   },
   {
-    path: "/guide",
+    path: "/guide/create",
     element: <Pages.CreateGuide/>
+  },
+  {
+    path: "*",
+    element: <Pages.NotFound/>
   }
 ]
