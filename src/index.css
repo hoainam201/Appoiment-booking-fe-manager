@@ -22,5 +22,14 @@
     }
     u{
         @apply underline;
-    };
+    }
+    ol{
+        @apply list-decimal list-inside;
+    }
+    ul{
+        @apply list-disc list-inside;
+    }
+    li{
+        @apply text-base font-normal;
+    }
 }
