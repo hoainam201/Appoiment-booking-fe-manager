@@ -25,3 +25,21 @@ export const bookingStatus = [
     color: 'gray',
   }
 ]
+
+export const staffRole = {
+    DOCTOR: 0,
+    MANAGER: 1,
+};
+
+export const guideStatus = [
+    {
+        id: false,
+        name: 'Ẩn',
+        color: 'yellow',
+    },
+    {
+        id: true,
+        name: 'Hiện',
+        color: 'green',
+    }
+]

@@ -1,11 +1,11 @@
 import privateHttp from './http/privateHttp.config';
 import publicHttp from './http/publicHttp.config';
 
-const USER = {
+const STAFF = {
   register: async ({name, email, password}) => {
     let res = await publicHttp({
       method: 'post',
-      url: '/user/register',
+      url: '/staff/register',
       data: {
         name,
         email,
@@ -17,7 +17,7 @@ const USER = {
   login: async ({email, password}) => {
     let res = await publicHttp({
       method: 'post',
-      url: '/user/login',
+      url: '/staff/login',
       data: {
         email,
         password
@@ -28,7 +28,7 @@ const USER = {
   forgotPassword: async ({email}) => {
     let res = await publicHttp({
       method: 'post',
-      url: '/user/forget-password',
+      url: '/staff/forget-password',
       data: {
         email
       }
@@ -38,7 +38,7 @@ const USER = {
   changePassword: async ({oldPassword, newPassword }) => {
     let res = await privateHttp({
       method: 'put',
-      url: '/user/change-password',
+      url: '/staff/change-password',
       data: {
         oldPassword,
         newPassword
@@ -49,14 +49,14 @@ const USER = {
   getProfile: async () => {
     let res = await privateHttp({
       method: 'get',
-      url: '/user/find-user'
+      url: '/staff/find-user'
     });
     return res;
   },
   updateProfile: async ({name, phone, gender, address}) => {
     let res = await privateHttp({
       method: 'put',
-      url: '/user/update-user',
+      url: '/staff/update-user',
       data: {
         name,
         phone,
@@ -86,7 +86,32 @@ const USER = {
       url: '/doctor/' + (pageNumber ? `?page=${pageNumber}` : '')
     });
     return res;
-  }
+  },
+    getRole: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/staff/get-role'
+        });
+        return res;
+    },
+    getGuide: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/news/get-by-doctor'
+        });
+        return res;
+    },
+    createGuide: async (title, content) => {
+        let res = await privateHttp({
+            method: 'post',
+            url: '/news',
+            data: {
+                title,
+                content
+            }
+        });
+        return res;
+    }
 }
 
-export default USER
+export default STAFF;

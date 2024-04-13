@@ -11,6 +11,9 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import Slide from '@mui/material/Slide';
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import STAFF from "../../services/staffService";
 
 const initialMarkdownContent = "**Empty**..."
 
@@ -24,6 +27,7 @@ export default function CreateGuide() {
   const [editorMarkdownValue, setEditorMarkdownValue] = useState("");
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,6 +45,31 @@ export default function CreateGuide() {
   const handleSave = (content) => {
     setContent(editorMarkdownValue);
     setOpen(false);
+  }
+
+  const handleCancel = () => {
+      navigate("/guide");
+  }
+
+  const handleSubmit = async () => {
+    if(title === "" || editorMarkdownValue === "") {
+        toast.error("Vui điền tên bài viết và nội dung bài viết");
+    }
+    else {
+        try {
+            const res = await STAFF.createGuide(title, content);
+            console.log(res.data);
+            if(res.status === 200) {
+                toast.success("Tạo bài viết thành công");
+                navigate("/guide");
+            } else {
+                toast.error("Tạo bài viết thất bại, vui lòng thử lại sau");
+            }
+        }
+        catch (e) {
+            toast.error("Tạo bài viết thất bại, vui lòng thử lại sau");
+        }
+    }
   }
 
   return (
@@ -75,8 +104,8 @@ export default function CreateGuide() {
         <Viewer value={content} />
       </div>
       <div className={`flex items-center h-12 w-full justify-between`}>
-        <Button variant="outlined" color="primary">Hủy</Button>
-        <Button variant="contained" color="primary">Tạo</Button>
+        <Button variant="outlined" onClick={handleCancel} color="primary">Hủy</Button>
+        <Button variant="contained" onClick={handleSubmit} color="primary">Tạo</Button>
       </div>
       <Dialog
         fullScreen
