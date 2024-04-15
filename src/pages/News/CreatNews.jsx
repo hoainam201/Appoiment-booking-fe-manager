@@ -21,7 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CreateGuide() {
+export default function CreatNews() {
   const [editorHtmlValue, setEditorHtmlValue] = useState("");
   const [content, setContent] = useState(initialMarkdownContent);
   const [editorMarkdownValue, setEditorMarkdownValue] = useState("");
@@ -48,7 +48,7 @@ export default function CreateGuide() {
   }
 
   const handleCancel = () => {
-      navigate("/guide");
+      navigate("/news");
   }
 
   const handleSubmit = async () => {
@@ -61,7 +61,7 @@ export default function CreateGuide() {
             console.log(res.data);
             if(res.status === 200) {
                 toast.success("Tạo bài viết thành công");
-                navigate("/guide");
+                navigate("/news");
             } else {
                 toast.error("Tạo bài viết thất bại, vui lòng thử lại sau");
             }

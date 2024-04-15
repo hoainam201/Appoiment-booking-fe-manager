@@ -1,5 +1,6 @@
 import privateHttp from './http/privateHttp.config';
 import publicHttp from './http/publicHttp.config';
+import formdataHttpConfig from "./http/formdataHttp.config";
 
 const STAFF = {
   register: async ({name, email, password}) => {
@@ -53,16 +54,14 @@ const STAFF = {
     });
     return res;
   },
-  updateProfile: async ({name, phone, gender, address}) => {
-    let res = await privateHttp({
-      method: 'put',
-      url: '/staff/update-user',
+  updateProfile: async ({name, file}) => {
+    let res = await formdataHttpConfig({
+      method: 'post',
+      url: '/staff/update-profile',
       data: {
         name,
-        phone,
-        gender,
-        address
-      }
+        file
+      },
     });
     return res;
   },
@@ -109,6 +108,38 @@ const STAFF = {
                 title,
                 content
             }
+        });
+        return res;
+    },
+    updateGuide: async (id, title, content) => {
+        let res = await privateHttp({
+            method: 'put',
+            url: '/news/' + id,
+            data: {
+                title,
+                content
+            }
+        });
+        return res;
+    },
+    hideGuide: async (id) => {
+        let res = await privateHttp({
+            method: 'patch',
+            url: '/news/hide/' + id
+        });
+        return res;
+    },
+    showGuide: async (id) => {
+        let res = await privateHttp({
+            method: 'patch',
+            url: '/news/show/' + id
+        });
+        return res;
+    },
+    getGuideDetail: async (id) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/news/' + id
         });
         return res;
     }

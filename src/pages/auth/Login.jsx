@@ -80,7 +80,8 @@ export default function Login() {
                                     Mật khẩu
                                 </label>
                                 <div className="text-sm">
-                                    <button className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                    <button className="font-semibold text-indigo-600 hover:text-indigo-500"
+                                            onClick={() => navigate('/forgot-password')}>
                                         Quên mật khẩu
                                     </button>
                                 </div>

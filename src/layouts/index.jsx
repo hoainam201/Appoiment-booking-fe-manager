@@ -35,7 +35,7 @@ const Layouts = () => {
             key: '2',
             icon: <SnippetsOutlined/>,
             label: 'Danh sách bài viết',
-            onClick: () => navigate('/guide')
+            onClick: () => navigate('/news  ')
         },
         {
             key: '3',

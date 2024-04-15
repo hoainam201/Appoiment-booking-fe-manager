@@ -6,12 +6,24 @@ export const NormalRoutes = [
         element: <Pages.AppoimentList/>
     },
     {
-        path: "/guide/create",
-        element: <Pages.CreateGuide/>
+        path: "/news/create",
+        element: <Pages.CreatNews/>
     },
     {
-        path: "/guide",
-        element: <Pages.GuideList/>
+        path: "/news",
+        element: <Pages.NewsList/>
+    },
+    {
+        path: "/news/edit/:id",
+        element: <Pages.EditNews/>
+    },
+    {
+        path: "/profile",
+        element: <Pages.Profile/>
+    },
+    {
+        path: "/change-password",
+        element: <Pages.Change/>
     },
     {
         path: "*",
@@ -23,5 +35,9 @@ export const AuthRoutes = [
     {
         path: "/login",
         element: <Pages.Login/>
-    }
+    },
+    {
+        path: "/forgot-password",
+        element: <Pages.ForgotPassword/>
+    },
 ]
