@@ -142,6 +142,20 @@ const STAFF = {
             url: '/news/' + id
         });
         return res;
+    },
+    getAllStaff: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/staff/get-all-staff'
+        });
+        return res;
+    },
+    activeStaff: async (id) => {
+        let res = await privateHttp({
+            method: 'patch',
+            url: '/staff/inactive/' + id
+        });
+        return res;
     }
 }
 

@@ -6,7 +6,7 @@ import {FormattedDate} from "react-intl";
 import avt from "../../assets/images/avt.png";
 
 
-const Profile = () => {
+const Staff = () => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [file, setFile] = useState(null);
@@ -36,10 +36,14 @@ const Profile = () => {
 
     const handleSave = async () => {
         try {
+            if (!name) {
+                toast.error("Vui lòng điền đầy đủ thông tin");
+                return;
+            }
             const res = await STAFF.updateProfile({name, file});
             if (res.status === 200) {
                 toast.success("Cập nhật profile thành công");
-                fetchData();
+                window.location.reload();
             } else {
                 toast.error(res.data.message);
             }
@@ -71,12 +75,12 @@ const Profile = () => {
                             <img className="h-20 w-20 rounded-full"
                                  src={URL.createObjectURL(file)} alt=""/>
                         ) : (
-                            <img className="h-20 w-20 rounded-full"
+                            <img className="h-20 w-20 rounded-full object-center"
                                  src={avtUrl ? avtUrl : avt} alt=""/>
                         )}
                         <input
                             type="file"
-                            className="absolute bg-white rounded-full top-5 left-6 w-20 h-20 opacity-0 hover:cursor-pointer"
+                            className="absolute bg-white rounded-full top-5 left-6 w-20 h-20 opacity-0 hover:scale-105 hover:cursor-pointer"
                             onChange={(e) => setFile(e.target.files[0])}
                         />
                     </div>
@@ -127,4 +131,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default Staff;

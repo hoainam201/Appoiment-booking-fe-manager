@@ -40,6 +40,12 @@ const NewsList = () => {
 
     const columns = [
         {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: 100,
+        },
+        {
             title: 'Tiêu đề',
             dataIndex: 'title',
             key: 'title',
@@ -50,6 +56,17 @@ const NewsList = () => {
             dataIndex: 'status',
             key: 'status',
             width: 150,
+            filters: [
+                {
+                    text: 'Hiện',
+                    value: true,
+                },
+                {
+                    text: 'Ẩn',
+                    value: false,
+                }
+            ],
+            onFilter: (value, record) => record.status === value,
             render: (_, {status}) => <>{status ? <Tag color="green">Hiện</Tag> : <Tag color="red">Ẩn</Tag>}</>, // <Tag color={status ? "green" : "red"}>{status ? "Hiện" : "Chủ biểt"}</>,
         },
         {

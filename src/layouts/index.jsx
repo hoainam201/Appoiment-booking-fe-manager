@@ -1,11 +1,9 @@
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
     UserOutlined,
     ScheduleOutlined,
-    VideoCameraOutlined,
-    LogoutOutlined, SnippetsOutlined, KeyOutlined
+    LogoutOutlined, SnippetsOutlined, KeyOutlined, ProfileOutlined, HeartOutlined
 } from '@ant-design/icons';
 import {Layout, Menu} from 'antd';
 import React, {useEffect, useMemo, useState} from 'react';
@@ -23,6 +21,7 @@ const Layouts = () => {
     const navigate = useNavigate();
     const [role, setRole] = useState('');
     const [name, setName] = useState('');
+    const [avatar, setAvatar] = useState('');
 
     const doctorMenu = [
         {
@@ -69,33 +68,41 @@ const Layouts = () => {
         },
         {
             key: '2',
-            icon: <SnippetsOutlined />,
-            label: 'Danh sách đánh giá',
-            onClick: () => navigate('/review')
+            icon: <ProfileOutlined />,
+            label: 'Thông tin cơ sở',
+            onClick: () => navigate('/facility-profile')
         },
         {
             key: '3',
-            icon: <UserOutlined />,
-            label: 'Danh sách nhân sự',
+            icon: <SnippetsOutlined />,
+            label: 'Quảng lý đánh giá',
+            onClick: () => navigate('/review')
         },
         {
             key: '4',
-            icon: <KeyOutlined />,
-            label: 'Danh sách dịch vụ',
+            icon: <UserOutlined />,
+            label: 'Quản lý nhân sự',
+            onClick: () => navigate('/staff')
         },
         {
             key: '5',
+            icon: <HeartOutlined />,
+            label: 'Quản lý dịch vụ',
+            onClick: () => navigate('/service')
+        },
+        {
+            key: '6',
             icon: <UserOutlined />,
             label: 'Hồ sơ cá nhân',
             onClick: () => navigate('/profile')
         },{
-            key: '6',
+            key: '7',
             icon: <KeyOutlined />,
             label: 'Đổi mật khẩu',
             onClick: () => navigate('/change-password')
         },
         {
-            key: '7',
+            key: '8',
             icon: <LogoutOutlined/>,
             label: 'Đăng xuất',
             onClick: () => {
@@ -116,6 +123,7 @@ const Layouts = () => {
                     if (res && res.data) {
                         setRole(res.data.role);
                         setName(res.data.name);
+                        setAvatar(res.data.avatar);
                     }
                 } catch (error) {
                     console.error(error);
@@ -153,12 +161,12 @@ const Layouts = () => {
                             className: 'trigger mx-5',
                             onClick: () => setCollapsed(!collapsed),
                         })}
-                        <div className={`flex mx-5 items-center my-auto`}>
+                        <div className={`flex mx-5 items-center my-auto gap-2`}>
                             <div>{name}</div>
                             <img
-                                src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png"
+                                src={avatar ? avatar : logo}
                                 alt="logo"
-                                className={`w-10 h-10 items-center text-center`}/>
+                                className={`w-10 h-10 rounded-full object-center items-center text-center`}/>
                         </div>
                     </Header>
                     <Content

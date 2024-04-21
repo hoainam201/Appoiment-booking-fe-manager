@@ -6,7 +6,9 @@ import NotFound from "./404/404";
 import Login from "./auth/Login";
 import ForgotPassword from "./auth/ForgotPassword";
 import Change from "./Password/Change";
-import Profile from "./Profile/Profile";
+import Staff from "./Profile/Staff";
+import StaffList from "./Staff/List";
+import Facility from "./Profile/Facility";
 
 export {
     AppoimentList,
@@ -17,5 +19,7 @@ export {
     Login,
     ForgotPassword,
     Change,
-    Profile,
+    Staff,
+    Facility,
+    StaffList,
 }

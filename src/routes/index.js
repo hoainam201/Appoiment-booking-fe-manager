@@ -19,11 +19,19 @@ export const NormalRoutes = [
     },
     {
         path: "/profile",
-        element: <Pages.Profile/>
+        element: <Pages.Staff/>
+    },
+    {
+        path: "/facility-profile",
+        element: <Pages.Facility/>
     },
     {
         path: "/change-password",
         element: <Pages.Change/>
+    },
+    {
+        path: "/staff",
+        element: <Pages.StaffList/>
     },
     {
         path: "*",
