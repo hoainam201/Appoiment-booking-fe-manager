@@ -119,7 +119,6 @@ const Layouts = () => {
             } else {
                 try {
                     const res = await U.getRole();
-                    console.log(res.data);
                     if (res && res.data) {
                         setRole(res.data.role);
                         setName(res.data.name);

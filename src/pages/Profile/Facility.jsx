@@ -1,7 +1,7 @@
 import avt from "../../assets/images/avt.png";
 import {FormattedDate} from "react-intl";
 import {Button} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Viewer from "../../components/Editor/Viewer";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +11,12 @@ import Typography from "@mui/material/Typography";
 import Editor from "../../components/Editor/Editor";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import EditNoteIcon from "@mui/icons-material/EditNote";
+import LeafletMap from "../../components/Map/LeafletMap";
+import STAFF from "../../services/staffService";
+import axios from "axios";
+import {useMapEvents} from "react-leaflet";
+import {toast} from "react-toastify";
+import {facilityType, specialitiesL} from "../../utils/constant";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -26,15 +31,83 @@ const Facility = () => {
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [description, setDescription] = useState("");
+    const [specialities, setSpecialities] = useState("");
+    const [type, setType] = useState("");
+    const [lat, setLat] = useState(20.9757581);
+    const [lng, setLng] = useState(105.8626556);
     const [editorMarkdownValue, setEditorMarkdownValue] = useState("");
     const [open, setOpen] = useState(false);
 
-    const handleSubmit = async () => {
+    const fetchLocation = async () => {
+        const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+        if (res.status === 200 && res.data.length > 0) {
+            console.log(res.data[0]);
+            setLat(res.data[0].lat);
+            setLng(res.data[0].lon);
+        }
+    }
 
+    const fetchData = async () => {
+        const res = await STAFF.getFacilityByToken();
+        if (res.status === 200) {
+            console.log(res.data);
+            setData(res.data);
+            setEmail(res.data.email);
+            setName(res.data.name);
+            setAvtUrl(res.data.avatar);
+            setSpecialities(res.data.specialities);
+            setType(res.data.type);
+            setAddress(res.data.address);
+            setPhone(res.data.phone);
+            setLat(res.data.latitude);
+            setLng(res.data.longitude);
+            setDescription(res.data.description);
+            setEditorMarkdownValue(res.data.description);
+        } else {
+            toast.error(res.data.message);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleSubmit = async () => {
+        if (!email || !name || !address || !phone || !description) {
+            toast.error("Vui lòng điền đầy đủ thông tin");
+            return;
+        }
+        console.log({email, name, address, phone, description, specialities, type, file, lat, lng});
+        const res = await STAFF.updateFacility({
+            email,
+            name,
+            address,
+            phone,
+            description,
+            specialities,
+            type,
+            file,
+            lat,
+            lng
+        });
+        if (res.status === 200) {
+            toast.success("Cập nhật profile thành công");
+        } else {
+            toast.error(res.data.message);
+        }
     }
 
     const hanleCancel = () => {
-
+        setEmail(data.email);
+        setName(data.name);
+        setAvtUrl(data.avatar);
+        setAddress(data.address);
+        setPhone(data.phone);
+        setSpecialities(data.specialities);
+        setType(data.type);
+        setLat(data.latitude);
+        setLng(data.longitude);
+        setDescription(data.description);
     }
 
     const handleClickOpen = () => {
@@ -94,7 +167,7 @@ const Facility = () => {
                         </div>
                     </dl>
                     <dl className="sm:divide-y sm:divide-gray-200">
-                        <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <div className="relative py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
                                 Địa chỉ
                             </dt>
@@ -102,8 +175,19 @@ const Facility = () => {
                                 <input className="h-full focus:outline-gray-300 hover:outline-gray-300 w-full"
                                        value={address} onChange={(e) => setAddress(e.target.value)}/>
                             </dd>
+                            <Button sx={{
+                                position: 'absolute',
+                                right: 18,
+                                top: 18
+                            }}
+                                    onClick={fetchLocation}>Lấy vị trí</Button>
                         </div>
                     </dl>
+                    <div
+                        className="flex items-center justify-center h-[300px] w-full "
+                    >
+                        <LeafletMap lat={lat} lng={lng}/>
+                    </div>
                     <dl className="sm:divide-y sm:divide-gray-200">
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">
@@ -115,6 +199,30 @@ const Facility = () => {
                             </dd>
                         </div>
                     </dl>
+                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                            Chuyên Khoa
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <select value={specialities} onChange={(e) => setSpecialities(e.target.value)}>
+                                {specialitiesL.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                ))}
+                            </select>
+                        </dd>
+                    </div>
+                    <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                            Loại cơ sở
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <select value={type} onChange={(e) => setType(e.target.value)}>
+                                {facilityType.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                ))}
+                            </select>
+                        </dd>
+                    </div>
                     <dl className="sm:divide-y sm:divide-gray-200">
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">

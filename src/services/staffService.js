@@ -3,89 +3,89 @@ import publicHttp from './http/publicHttp.config';
 import formdataHttpConfig from "./http/formdataHttp.config";
 
 const STAFF = {
-  register: async ({name, email, password}) => {
-    let res = await publicHttp({
-      method: 'post',
-      url: '/staff/register',
-      data: {
-        name,
-        email,
-        password
-      }
-    });
-    return res;
-  },
-  login: async ({email, password}) => {
-    let res = await publicHttp({
-      method: 'post',
-      url: '/staff/login',
-      data: {
-        email,
-        password
-      }
-    });
-    return res;
-  },
-  forgotPassword: async ({email}) => {
-    let res = await publicHttp({
-      method: 'post',
-      url: '/staff/forget-password',
-      data: {
-        email
-      }
-    });
-    return res;
-  },
-  changePassword: async ({oldPassword, newPassword }) => {
-    let res = await privateHttp({
-      method: 'put',
-      url: '/staff/change-password',
-      data: {
-        oldPassword,
-        newPassword
-      }
-    });
-    return res;
-  },
-  getProfile: async () => {
-    let res = await privateHttp({
-      method: 'get',
-      url: '/staff/find-user'
-    });
-    return res;
-  },
-  updateProfile: async ({name, file}) => {
-    let res = await formdataHttpConfig({
-      method: 'post',
-      url: '/staff/update-profile',
-      data: {
-        name,
-        file
-      },
-    });
-    return res;
-  },
-  getFacilities: async (pageNumber) => {
-    let res = await publicHttp({
-      method: 'get',
-      url: '/health-facilities' + (pageNumber ? `?page=${pageNumber}` : '')
-    });
-    return res;
-  },
-  getFacilityDetail: async (id) => {
-    let res = await publicHttp({
-      method: 'get',
-      url: '/health-facilities/' + id
-    });
-    return res;
-  },
-  getDoctors: async (pageNumber) => {
-    let res = await publicHttp({
-      method: 'get',
-      url: '/doctor/' + (pageNumber ? `?page=${pageNumber}` : '')
-    });
-    return res;
-  },
+    register: async ({name, email, password}) => {
+        let res = await publicHttp({
+            method: 'post',
+            url: '/staff/register',
+            data: {
+                name,
+                email,
+                password
+            }
+        });
+        return res;
+    },
+    login: async ({email, password}) => {
+        let res = await publicHttp({
+            method: 'post',
+            url: '/staff/login',
+            data: {
+                email,
+                password
+            }
+        });
+        return res;
+    },
+    forgotPassword: async ({email}) => {
+        let res = await publicHttp({
+            method: 'post',
+            url: '/staff/forget-password',
+            data: {
+                email
+            }
+        });
+        return res;
+    },
+    changePassword: async ({oldPassword, newPassword}) => {
+        let res = await privateHttp({
+            method: 'put',
+            url: '/staff/change-password',
+            data: {
+                oldPassword,
+                newPassword
+            }
+        });
+        return res;
+    },
+    getProfile: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/staff/find-user'
+        });
+        return res;
+    },
+    updateProfile: async ({name, file}) => {
+        let res = await formdataHttpConfig({
+            method: 'post',
+            url: '/staff/update-profile',
+            data: {
+                name,
+                file
+            },
+        });
+        return res;
+    },
+    getFacilities: async (pageNumber) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/health-facilities' + (pageNumber ? `?page=${pageNumber}` : '')
+        });
+        return res;
+    },
+    getFacilityDetail: async (id) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/health-facilities/' + id
+        });
+        return res;
+    },
+    getDoctors: async (pageNumber) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/doctor/' + (pageNumber ? `?page=${pageNumber}` : '')
+        });
+        return res;
+    },
     getRole: async () => {
         let res = await privateHttp({
             method: 'get',
@@ -156,7 +156,33 @@ const STAFF = {
             url: '/staff/inactive/' + id
         });
         return res;
-    }
+    },
+    getFacilityByToken: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/health-facilities/get-by-token'
+        })
+        return res;
+    },
+    updateFacility: async ({email, name, address, phone, specialities, description, type, file, lat, lng}) => {
+        let res = await formdataHttpConfig({
+            method: 'put',
+            url: '/health-facilities/update',
+            data: {
+                email,
+                name,
+                address,
+                phone,
+                description,
+                specialities,
+                type,
+                file,
+                latitude: lat,
+                longitude: lng
+            },
+        })
+        return res;
+    },
 }
 
 export default STAFF;
