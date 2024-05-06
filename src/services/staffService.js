@@ -150,6 +150,25 @@ const STAFF = {
         });
         return res;
     },
+    createStaff: async ({name, email, role}) => {
+        let res = await privateHttp({
+            method: 'post',
+            url: '/staff/create',
+            data: {
+                name,
+                email,
+                role
+            }
+        })
+        return res;
+    },
+    getDoctorList: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/staff/get-doctors'
+        });
+        return res;
+    },
     activeStaff: async (id) => {
         let res = await privateHttp({
             method: 'patch',
@@ -179,6 +198,36 @@ const STAFF = {
                 file,
                 latitude: lat,
                 longitude: lng
+            },
+        })
+        return res;
+    },
+    getServices: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/health-service/get-all-by-token'
+        });
+        return res;
+    },
+    getServiceDetail: async (id) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/health-service/' + id
+        });
+        return res;
+    },
+    createService: async ({name, description, fee, type, speciality, chargeOf, file}) => {
+        let res = await formdataHttpConfig({
+            method: 'post',
+            url: '/health-service/create',
+            data: {
+                name,
+                description,
+                fee,
+                type,
+                speciality,
+                chargeOf,
+                file
             },
         })
         return res;

@@ -165,7 +165,7 @@ const Layouts = () => {
                             <img
                                 src={avatar ? avatar : logo}
                                 alt="logo"
-                                className={`w-10 h-10 rounded-full object-center items-center text-center`}/>
+                                className={`w-10 h-10 rounded-full object-cover items-center text-center`}/>
                         </div>
                     </Header>
                     <Content

@@ -34,6 +34,14 @@ export const NormalRoutes = [
         element: <Pages.StaffList/>
     },
     {
+        path: "/service",
+        element: <Pages.ServiceList/>
+    },
+    {
+        path: "/service/create",
+        element: <Pages.ServiceCreate/>
+    },
+    {
         path: "*",
         element: <Pages.NotFound/>
     }

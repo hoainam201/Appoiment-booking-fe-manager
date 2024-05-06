@@ -30,8 +30,30 @@ export default function StaffList() {
     };
 
     const handleClose = () => {
+        setEmail('');
+        setName('');
+        setRole(staffRole.DOCTOR);
         setOpen(false);
     };
+
+    const handleSave = async () => {
+        try {
+            if (!name) {
+                toast.error("Vui lòng điền đầy đủ thông tin");
+                return;
+            }
+            const res = await STAFF.createStaff({name, email, role});
+            if (res.status === 201) {
+                toast.success("Thêm nhân viên thành công");
+                fetchData();
+                handleClose();
+            } else {
+                toast.error(res.data.message);
+            }
+        } catch (e) {
+            toast.error("Thêm nhan viên thât baị, vui lòng thể thử lại sau");
+        }
+    }
 
     const handleEdit = async (id) => {
         try {
@@ -72,6 +94,25 @@ export default function StaffList() {
             dataIndex: 'email',
             key: 'email',
             render: (text) => <a>{text}</a>,
+        },
+        {
+            title: 'Vai trò',
+            dataIndex: 'role',
+            key: 'role',
+            filters: [
+                {
+                    text: 'Bác sĩ',
+                    value: staffRole.DOCTOR,
+                },
+                {
+                    text: 'Quản lý',
+                    value: staffRole.MANAGER,
+                }
+            ],
+            onFilter: (value, record) => record.role === value,
+            render: (_, {role}) => {
+                return <Tag color="cyan">{role === staffRole.DOCTOR ? 'Bác sĩ' : 'Quản lý'}</Tag>;
+            },
         },
         {
             title: 'Trang thái',
@@ -242,7 +283,7 @@ export default function StaffList() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Hủy</Button>
-                    <Button type="submit">Thêm</Button>
+                    <Button onClick={handleSave}>Thêm</Button>
                 </DialogActions>
             </Dialog>
         </>

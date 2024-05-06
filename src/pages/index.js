@@ -9,6 +9,8 @@ import Change from "./Password/Change";
 import Staff from "./Profile/Staff";
 import StaffList from "./Staff/List";
 import Facility from "./Profile/Facility";
+import ServiceList from "./Service/List";
+import ServiceCreate from "./Service/Create";
 
 export {
     AppoimentList,
@@ -22,4 +24,6 @@ export {
     Staff,
     Facility,
     StaffList,
+    ServiceList,
+    ServiceCreate
 }

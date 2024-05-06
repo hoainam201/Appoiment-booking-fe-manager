@@ -33,8 +33,8 @@ const Facility = () => {
     const [description, setDescription] = useState("");
     const [specialities, setSpecialities] = useState("");
     const [type, setType] = useState("");
-    const [lat, setLat] = useState(20.9757581);
-    const [lng, setLng] = useState(105.8626556);
+    const [lat, setLat] = useState(0);
+    const [lng, setLng] = useState(0);
     const [editorMarkdownValue, setEditorMarkdownValue] = useState("");
     const [open, setOpen] = useState(false);
 
@@ -186,7 +186,7 @@ const Facility = () => {
                     <div
                         className="flex items-center justify-center h-[300px] w-full "
                     >
-                        <LeafletMap lat={lat} lng={lng}/>
+                        {lat && lng ? <LeafletMap lat={lat} lng={lng} /> : <></>}
                     </div>
                     <dl className="sm:divide-y sm:divide-gray-200">
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

@@ -62,7 +62,7 @@ export const facilityType = [
 export const specialitiesL = [
     {
         id: 0,
-        name: "Đa khoa",
+        name: "Đa khoa - Tổng hợp",
         key: "General",
     },
     {
@@ -141,3 +141,8 @@ export const specialitiesL = [
         key: "Opthalmology",
     }
 ]
+
+export const serviceType = {
+    DOCTOR: 0,
+    PACKAGE: 1,
+};

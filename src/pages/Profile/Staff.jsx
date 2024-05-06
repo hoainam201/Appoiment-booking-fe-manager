@@ -75,7 +75,7 @@ const Staff = () => {
                             <img className="h-20 w-20 rounded-full"
                                  src={URL.createObjectURL(file)} alt=""/>
                         ) : (
-                            <img className="h-20 w-20 rounded-full object-center"
+                            <img className="h-20 w-20 rounded-full object-cover"
                                  src={avtUrl ? avtUrl : avt} alt=""/>
                         )}
                         <input
