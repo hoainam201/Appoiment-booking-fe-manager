@@ -11,6 +11,7 @@ import StaffList from "./Staff/List";
 import Facility from "./Profile/Facility";
 import ServiceList from "./Service/List";
 import ServiceCreate from "./Service/Create";
+import ServiceDetail from "./Service/Detail";
 
 export {
     AppoimentList,
@@ -25,5 +26,6 @@ export {
     Facility,
     StaffList,
     ServiceList,
-    ServiceCreate
+    ServiceCreate,
+    ServiceDetail
 }

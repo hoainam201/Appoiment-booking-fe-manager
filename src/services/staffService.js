@@ -232,6 +232,36 @@ const STAFF = {
         })
         return res;
     },
+    getServiceById: async (id) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/health-service/' + id
+        });
+        return res;
+    },
+    updateService: async ({id, name, description, fee, type, speciality, chargeOf, file}) => {
+        let res = await formdataHttpConfig({
+            method: 'put',
+            url: '/health-service/' + id,
+            data: {
+                name,
+                description,
+                fee,
+                type,
+                speciality,
+                chargeOf,
+                file
+            },
+        })
+        return res;
+    },
+    getReviewsByServiceId: async (id, page) => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/service-review/' + id + `?page=${page}`
+        });
+        return res;
+    }
 }
 
 export default STAFF;

@@ -50,6 +50,7 @@ const List = () => {
             dataIndex: 'name',
             key: 'name',
             render: (text) => <a>{text}</a>,
+            fixed: 'left',
         },
         {
             title: 'Loại',
@@ -88,6 +89,22 @@ const List = () => {
             render: (_, {active}) => <>{active ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Dừng</Tag>}</>,
         },
         {
+            title: 'Đánh giá',
+            dataIndex: 'avg_rating',
+            key: 'avg_rating',
+            // width: 100,
+            render: (text)   => <>{text}</>,
+            sorter: (a, b) => a.avg_rating - b.avg_rating,
+        },
+        {
+            title: 'Số lượt đánh giá',
+            dataIndex: 'review_count',
+            key: 'review_count',
+            // width: 120,
+            render: (text) => <>{text}</>,
+            sorter: (a, b) => a.review_count - b.review_count,
+        },
+        {
             title: 'Ngày tạo',
             dataIndex: 'created_at',
             key: 'created_at',
@@ -121,33 +138,14 @@ const List = () => {
             fixed: 'right',
             width: 250,
             key: 'status, id',
-            render: (_, {status, id}) => {
-                if (status === true) {
-                    return (
-                        <>
-                            <Button
-                                sx={{marginRight: 1}}
-                                variant="outlined"
-                                onClick={() => handleHide(id)}
-                            >Dừng</Button>
-                            <Button
-                                variant="contained"
-                                onClick={() => handleEdit(id)}>Chi tiết</Button>
-                        </>
-                    )
-                } else {
-                    return (
-                        <div>
-                            <Button
-                                sx={{marginRight: 1}}
-                                variant="outlined"
-                                onClick={() => handleShow(id)}>Kích hoạt</Button>
-                            <Button
-                                variant="contained"
-                                onClick={() => handleEdit(id)}>Chi tiết</Button>
-                        </div>
-                    )
-                }
+            render: (_, {id}) => {
+                return (
+                    <>
+                        <Button
+                            variant="contained"
+                            onClick={() => handleEdit(id)}>Chi tiết</Button>
+                    </>
+                )
             }
         }
     ]
@@ -174,15 +172,15 @@ const List = () => {
     useEffect(() => {
 
         if (search !== '') {
-            setFilteredData(data.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())));
+            setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
         } else {
             setFilteredData(data);
         }
     }, [search]);
 
     return (
-        <div className="h-[75vh]">
-            <div className="w-full flex h-10 my-auto justify-start gap-3">
+        <div className="max-h-[75vh] overflow-y-auto relative">
+            <div className="w-full flex h-10 my-auto justify-start gap-3 sticky top-0 z-10 bg-white mb-2">
                 <div className="w-28 text-center my-auto font-bold">Tiêu đề</div>
                 <input
                     type="text"
@@ -199,7 +197,9 @@ const List = () => {
                     variant="contained"
                 >Tạo dịch vụ</Button>
             </div>
-            <Table columns={columns} dataSource={filteredData} pagination={{pageSize: 6}}/>
+            <Table columns={columns} dataSource={filteredData} pagination={{pageSize: 10 }} scroll={{
+                x: 1500
+            }}/>
         </div>
     )
 }

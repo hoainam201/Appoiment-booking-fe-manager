@@ -42,6 +42,10 @@ export const NormalRoutes = [
         element: <Pages.ServiceCreate/>
     },
     {
+        path: "/service/detail/:id",
+        element: <Pages.ServiceDetail/>
+    },
+    {
         path: "*",
         element: <Pages.NotFound/>
     }

@@ -51,7 +51,7 @@ export default function Create() {
         setEditorMarkdownValue(content.markdown)
     }
 
-    const handleSave = (content) => {
+    const handleSave = () => {
         setDescription(editorMarkdownValue);
         setOpen(false);
     }
@@ -76,13 +76,13 @@ export default function Create() {
                 });
                 console.log(res.data);
                 if (res.status === 200) {
-                    toast.success("Tạo thành công");
+                    toast.success("Thêm thành công");
                     navigate("/service");
                 } else {
-                    toast.error("Tạo thất bại, vui lòng thử lại sau");
+                    toast.error(res.data.message);
                 }
             } catch (e) {
-                toast.error("Tạo thất bại, vui lòng thử lại sau");
+                toast.error("Thêm thất bại, vui lòng thử lại sau");
             }
         }
     }
@@ -104,7 +104,7 @@ export default function Create() {
 
     return (
         <div className="flex flex-col max-h-[75vh] overflow-y-auto">
-            <h1 className={`text-3xl font-bold text-center`}>Tạo bài viết</h1>
+            <h1 className={`text-3xl font-bold text-center`}>Thêm bài viết</h1>
             <div className={`flex flex-col items-start`}>
                 <p className={`text-xl font-bold`}>Ảnh</p>
                 <div className="relative w-full">
@@ -119,7 +119,7 @@ export default function Create() {
                     <div
                         className={`h-32 w-full flex justify-center items-center rounded-lg outline-1 border-2 border-gray-200 p-2 hover:cursor-pointer hover:scale-105`}
                     >
-                        <p>Tải hoặc kéo thả ảnh vào  đây</p>
+                        <p>Click hoặc kéo thả ảnh vào  đây</p>
                     </div>
                     }
                 </div>
@@ -162,7 +162,7 @@ export default function Create() {
                         onChange={(e) => setType(e.target.value)}
                     >
                         <MenuItem value={serviceType.DOCTOR}>Bác sĩ</MenuItem>
-                        <MenuItem value={serviceType.PACKAGE}>Quản lý</MenuItem>
+                        <MenuItem value={serviceType.PACKAGE}>Gói khám</MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -223,10 +223,12 @@ export default function Create() {
                             }
                         }
                         value={chargeOf}
-                        onChange={(e) => setChargeOf(e.target.value)}
+                        onChange={(e) => {
+                            setChargeOf(e.target.value);
+                        }}
                     >
                         {doctors.length > 0 && doctors.map((item, index) => (
-                            <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
+                            <MenuItem key={index} value={item.email}>{item.name}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
@@ -247,12 +249,12 @@ export default function Create() {
                     </Button>
                 </div>
             </div>
-            <div className="viewer max-h-[500px] overflow-auto rounded-lg">
+            <div className="viewer max-h-[300px] rounded-lg">
                 <Viewer value={description}/>
             </div>
             <div className={`flex items-center h-12 w-full justify-between`}>
                 <Button variant="outlined" onClick={handleCancel} color="primary">Hủy</Button>
-                <Button variant="contained" onClick={handleSubmit} color="primary">Tạo</Button>
+                <Button variant="contained" onClick={handleSubmit} color="primary">Thêm</Button>
             </div>
             <Dialog
                 fullScreen
