@@ -15,7 +15,7 @@ function App() {
   return (
       <IntlProvider locale={locale}>
     <QueryClientProvider client={queryClient}>
-      <ToastContainer/>
+      <ToastContainer autoClose="1000" pauseOnHover={false} closeOnClick/>
       <BrowserRouter>
         <Routes>
           <Route element={<Layouts/>}>

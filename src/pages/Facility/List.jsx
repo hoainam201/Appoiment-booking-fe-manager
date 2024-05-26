@@ -6,36 +6,16 @@ import {FormattedDate} from "react-intl";
 
 import STAFF from "../../services/staffService";
 import {toast} from "react-toastify";
+import {facilityType} from "../../utils/constant";
 
-
-const NewsList = () => {
+const List = () => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState(data);
     const navigate = useNavigate();
 
-    const handleShow = async (id) => {
-        const res = await STAFF.showGuide(id);
-        if (res.status === 200) {
-            toast.success("Cập nhật trạng thái thành công");
-            fetchData();
-        } else {
-            toast.error("Cập nhật trạng thái thất bại");
-        }
-    }
-
-    const handleHide = async (id) => {
-        const res = await STAFF.hideGuide(id);
-        if (res.status === 200) {
-            toast.success("Cập nhật trạng thái thành công");
-            fetchData();
-        } else {
-            toast.error("Cập nhật trạng thái thất bại");
-        }
-    }
-
     const handleEdit = (id) => {
-        navigate(`/news/edit/${id}`);
+        navigate(`/facility/detail/${id}`);
     }
 
     const columns = [
@@ -43,31 +23,49 @@ const NewsList = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: 100,
+            width: 80,
         },
         {
-            title: 'Tiêu đề',
-            dataIndex: 'title',
-            key: 'title',
+            title: 'Tên cơ sở',
+            dataIndex: 'name',
+            key: 'name',
             render: (text) => <a>{text}</a>,
+            fixed: 'left',
+        },
+        {
+            title: 'Loại',
+            dataIndex: 'type',
+            key: 'type',
+            width: 150,
+            filters: facilityType.map( ({id, name}) => ({text: name, value: id})),
+            onFilter: (value, record) => record.type === value,
+            render: (_, {type}) => <Tag color={facilityType.find(({id}) => id === type)?.color}>{facilityType.find(({id}) => id === type)?.name}</Tag>, // <Tag color={status ? "green" : "red"}>{status ? "Hiện" : "Chủ biểt"}</>,
         },
         {
             title: 'Trang thái',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'active',
+            key: 'active',
             width: 150,
             filters: [
                 {
-                    text: 'Hiện',
+                    text: 'Hoạt động',
                     value: true,
                 },
                 {
-                    text: 'Ẩn',
+                    text: 'Dừng',
                     value: false,
                 }
             ],
             onFilter: (value, record) => record.status === value,
-            render: (_, {status}) => <>{status ? <Tag color="green">Hiện</Tag> : <Tag color="red">Ẩn</Tag>}</>, // <Tag color={status ? "green" : "red"}>{status ? "Hiện" : "Chủ biểt"}</>,
+            render: (_, {active}) => <>{active ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Dừng</Tag>}</>,
+        },
+        {
+            title: 'Đánh giá',
+            dataIndex: 'avg_rating',
+            key: 'avg_rating',
+            // width: 100,
+            render: (text)   => <>{text}</>,
+            sorter: (a, b) => a.avg_rating - b.avg_rating,
         },
         {
             title: 'Ngày tạo',
@@ -103,42 +101,28 @@ const NewsList = () => {
             fixed: 'right',
             width: 250,
             key: 'status, id',
-            render: (_, {status, id}) => {
-                if (status === true) {
-                    return (
-                        <>
-                            <Button
-                                sx={{marginRight: 1}}
-                                variant="outlined"
-                                onClick={() => handleHide(id)}
-                            >ẩn</Button>
-                            <Button
-                                variant="contained"
-                                onClick={() => handleEdit(id)}>Chỉnh sửa</Button>
-                        </>
-                    )
-                } else {
-                    return (
-                        <div>
-                            <Button
-                                sx={{marginRight: 1}}
-                                variant="outlined"
-                                onClick={() => handleShow(id)}>Hiện</Button>
-                            <Button
-                                variant="contained"
-                                onClick={() => handleEdit(id)}>Chỉnh sửa</Button>
-                        </div>
-                    )
-                }
+            render: (_, {id}) => {
+                return (
+                    <>
+                        <Button
+                            variant="contained"
+                            onClick={() => handleEdit(id)}>Chi tiết</Button>
+                    </>
+                )
             }
         }
     ]
 
     const fetchData = async () => {
         try {
-            const res = await STAFF.getGuide();
-            setData(res.data);
-            setFilteredData(res.data);
+            const res = await STAFF.getFacilities();
+            if(res.status === 200) {
+                console.log(res.data);
+                setData(res.data);
+                setFilteredData(res.data);
+            }else {
+                toast.error(res.data.message);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -149,18 +133,17 @@ const NewsList = () => {
     }, []);
 
     useEffect(() => {
-
         if (search !== '') {
-            setFilteredData(data.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())));
+            setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
         } else {
             setFilteredData(data);
         }
     }, [search]);
 
     return (
-        <div className="h-[75vh]">
-            <div className="w-full flex h-10 my-auto justify-start gap-3">
-                <div className="w-28 text-center my-auto font-bold">Tiêu đề</div>
+        <div className="max-h-[75vh] overflow-y-auto relative">
+            <div className="w-full flex h-10 my-auto justify-start gap-3 sticky top-0 z-10 bg-white mb-2">
+                <div className="w-28 text-center my-auto font-bold">Tên cơ sở</div>
                 <input
                     type="text"
                     value={search}
@@ -171,21 +154,24 @@ const NewsList = () => {
                 />
                 <Button
                     onClick={() => {
-                        navigate("/news/create")
+                        navigate("/facility/create")
                     }}
                     variant="contained"
-                >Tạo bài viết</Button>
+                >Thêm cơ sở</Button>
             </div>
             <Table
-                columns={columns}
+                columns={columns} d
                 dataSource={filteredData}
                 pagination={{
                     defaultPageSize: 5,
                     showSizeChanger: true,
                     pageSizeOptions: ['5', '10', '20'],
-                }}/>
+                }}
+                scroll={{
+                x: 1500
+            }}/>
         </div>
     )
 }
 
-export default NewsList;
+export default List;

@@ -12,9 +12,16 @@ import Facility from "./Profile/Facility";
 import ServiceList from "./Service/List";
 import ServiceCreate from "./Service/Create";
 import ServiceDetail from "./Service/Detail";
+import FacilityList from "./Facility/List";
+import FacilityDetail from "./Facility/Detail";
+import FacilityCreate from "./Facility/Create";
+import DoctorAppointmentList  from "./Appointment/DoctorAppointmentList";
+import AppointmentDetail from "./Appointment/Detail";
 
 export {
     AppoimentList,
+    DoctorAppointmentList,
+    AppointmentDetail,
     CreatNews,
     NewsList,
     EditNews,
@@ -27,5 +34,8 @@ export {
     StaffList,
     ServiceList,
     ServiceCreate,
-    ServiceDetail
+    ServiceDetail,
+    FacilityList,
+    FacilityDetail,
+    FacilityCreate,
 }

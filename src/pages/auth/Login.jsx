@@ -21,21 +21,25 @@ export default function Login() {
     );
 
     const handleLogin = async () => {
-        if (email && password) {
-            if (!isValidEmail(email)) {
-                toast.error("Email không đúng định dạng");
-                return;
-            }
-            const res = await STAFF.login({email, password});
-            if (res && res.data && res.data.token) {
-                localStorage.setItem('token', res.data.token);
-                toast.success("Đăng nhập thành công");
-                navigate('/');
+        try {
+            if (email && password) {
+                if (!isValidEmail(email)) {
+                    toast.error("Email không đúng định dạng");
+                    return;
+                }
+                const res = await STAFF.login({email, password});
+                if (res && res.data && res.data.token) {
+                    localStorage.setItem('token', res.data.token);
+                    toast.success("Đăng nhập thành công");
+                    navigate('/');
+                } else {
+                    toast.error("Tài khoản hoặc mật khẩu không đúng");
+                }
             } else {
-                toast.error("Tài khoản hoặc mật khẩu không đúng");
+                toast.error('Vui lòng điền đầy đủ thông tin');
             }
-        } else {
-            toast.error('Vui lòng điền đầy đủ thông tin');
+        } catch (error) {
+            toast.error("Đăng nhập thất bại");
         }
     }
 
@@ -54,7 +58,7 @@ export default function Login() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <div     className="space-y-6">
+                    <div className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email

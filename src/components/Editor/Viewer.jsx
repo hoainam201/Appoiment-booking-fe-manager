@@ -1,5 +1,10 @@
-import ReactMarkdown from "react-markdown"
+import {htmlToMarkdown, markdownToHtml} from "./Parser";
+import ReactQuill from "react-quill";
 
 export default function Viewer(props) {
-  return <ReactMarkdown>{props.value}</ReactMarkdown>
+  return <ReactQuill
+      value={markdownToHtml(props.value || "")}
+      readOnly={true}
+      theme="bubble"
+  />
 }

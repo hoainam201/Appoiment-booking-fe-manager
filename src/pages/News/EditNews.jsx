@@ -26,6 +26,8 @@ export default function EditNews() {
     const [editorMarkdownValue, setEditorMarkdownValue] = useState("");
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = useState("");
+    const [banner, setBanner] = useState("");
+    const [file, setFile] = useState("");
     const navigate = useNavigate();
     const id = useParams().id;
 
@@ -57,16 +59,21 @@ export default function EditNews() {
         }
         else {
             try {
-                const res = await STAFF.updateGuide(id, title, content);
+                toast.dismiss();
+                toast.loading("Đang chỉnh sửa bài viết");
+                const res = await STAFF.updateGuide(id, title, content, file);
                 console.log(res.data);
                 if(res.status === 200) {
+                    toast.dismiss();
                     toast.success("Chỉnh sửa bài viết thành công");
                     navigate("/news");
                 } else {
+                    toast.dismiss();
                     toast.error("Chỉnh sửa bài viết thất bại, vui lòng thử lại sau");
                 }
             }
             catch (e) {
+                toast.dismiss();
                 toast.error("Chỉnh sửa bài viết thất bại, vui lòng thử lại sau");
             }
         }
@@ -78,6 +85,8 @@ export default function EditNews() {
             if(res.status === 200) {
                 setTitle(res.data.title);
                 setContent(res.data.content);
+                setEditorMarkdownValue(res.data.content);
+                setBanner(res.data.banner);
             }
             else {
                 toast.error("Không thể tải bài viết");
@@ -105,14 +114,33 @@ export default function EditNews() {
                     onChange={e => setTitle(e.target.value)}
                 />
             </div>
+            <div className={`flex flex-col items-start`}>
+                <p className={`text-xl font-bold`}>Banner</p>
+                <div className="relative w-full">
+                    <input
+                        type="file"
+                        hidden
+                        className={`absolute w-full opacity-0 h-32 flex  outline-1 border-2 border-gray-200 p-2 rounded-lg text-base focus:outline-blue-500`}
+                        onChange={e => setFile(e.target.files[0])}
+                    />
+                    {file ? <img src={URL.createObjectURL(file)}
+                                 className={`h-32 w-auto object-cover rounded-lg outline-1`}/> :
+                        banner ? <img src={banner} className={`h-32 w-auto object-cover rounded-lg outline-1`}/> : <div
+                            className={`h-32 w-full flex justify-center items-center rounded-lg outline-1 border-2 border-gray-200 p-2 hover:cursor-pointer hover:scale-105`}
+                        >
+                            <p>Click hoặc kéo thả ảnh vào đây</p>
+                        </div>
+                    }
+                </div>
+            </div>
             <div className={`flex items-center h-12 w-full justify-between`}>
                 <p className={`text-xl font-bold text-center`}>
                     Nội dung
                 </p>
                 <div className={`flex ml-2 mt-1 justify-end`}>
-                    <Button
+                <Button
                         variant="outlined"
-                        startIcon={<EditNoteIcon />}
+                        startIcon={<EditNoteIcon/>}
                         // size="small"
                         color="primary"
                         onClick={handleClickOpen}>
@@ -121,7 +149,7 @@ export default function EditNews() {
                 </div>
             </div>
             <div className="viewer max-h-[500px] overflow-auto rounded-lg">
-                <Viewer value={content} />
+                <Viewer value={content}/>
             </div>
             <div className={`flex items-center h-12 w-full justify-between`}>
                 <Button variant="outlined" onClick={handleCancel} color="primary">Hủy</Button>
@@ -133,7 +161,7 @@ export default function EditNews() {
                 onClose={handleClose}
                 TransitionComponent={Transition}
             >
-                <AppBar sx={{ position: 'relative' }}>
+                <AppBar sx={{position: 'relative'}}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -141,9 +169,9 @@ export default function EditNews() {
                             onClick={handleClose}
                             aria-label="close"
                         >
-                            <CloseIcon />
+                            <CloseIcon/>
                         </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
                             Chỉnh sửa
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSave}>

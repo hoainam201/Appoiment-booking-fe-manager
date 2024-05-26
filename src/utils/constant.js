@@ -1,34 +1,45 @@
 export const bookingStatus = [
-  {
-    id: 0,
-    name: 'Đang chờ',
-    color: 'yellow',
-  },
-  {
-    id: 1,
-    name: 'Xác nhận',
-    color: 'green',
-  },
-  {
-    id: 2,
-    name: 'Từ chối',
-    color: 'red',
-  },
-  {
-    id: 3,
-    name: 'Đã khám',
-    color: 'blue',
-  },
-  {
-    id: 4,
-    name: 'Đã huỷ',
-    color: 'gray',
-  }
+    {
+        id: 0,
+        name: 'Đang chờ',
+        color: 'yellow',
+    },
+    {
+        id: 1,
+        name: 'Xác nhận',
+        color: 'green',
+    },
+    {
+        id: 2,
+        name: 'Từ chối',
+        color: 'red',
+    },
+    {
+        id: 3,
+        name: 'Đã khám',
+        color: 'blue',
+    },
+    {
+        id: 4,
+        name: 'Đã huỷ',
+        color: 'gray',
+    },
+    {
+        id: 5,
+        name: 'Đang khám',
+        color: 'cyan',
+    },
+    {
+        id: 6,
+        name: 'Đã thanh toán',
+        color: 'purple',
+    }
 ]
 
 export const staffRole = {
     DOCTOR: 0,
     MANAGER: 1,
+    ADMIN: 2
 };
 
 export const guideStatus = [
@@ -47,15 +58,18 @@ export const guideStatus = [
 export const facilityType = [
     {
         id: 0,
-        name: 'Bệnh viện'
+        name: 'Bệnh viện',
+        color: 'blue',
     },
     {
         id: 1,
-        name: 'Khòng khám'
+        name: 'Khòng khám',
+        color: 'green',
     },
     {
         id: 2,
-        name: 'Trạm y tế'
+        name: 'Trạm y tế',
+        color: 'purple',
     }
 ]
 

@@ -46,6 +46,26 @@ export const NormalRoutes = [
         element: <Pages.ServiceDetail/>
     },
     {
+        path: "/facility",
+        element: <Pages.FacilityList/>
+    },
+    {
+        path: "/facility/detail/:id",
+        element: <Pages.FacilityDetail/>
+    },
+    {
+        path: "/facility/create",
+        element: <Pages.FacilityCreate/>
+    },
+    {
+        path: "/appointment",
+        element: <Pages.DoctorAppointmentList/>
+    },
+    {
+        path: "/appointment/detail/:id",
+        element: <Pages.AppointmentDetail/>
+    },
+    {
         path: "*",
         element: <Pages.NotFound/>
     }

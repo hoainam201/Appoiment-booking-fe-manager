@@ -10,7 +10,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Content, Header} from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import './style.css'
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import logo from '../assets/images/Logo.png';
 import U from "../services/staffService";
 import {staffRole} from "../utils/constant";
@@ -22,13 +22,49 @@ const Layouts = () => {
     const [role, setRole] = useState('');
     const [name, setName] = useState('');
     const [avatar, setAvatar] = useState('');
+    const location = useLocation();
+
+    const adminUrl =[
+        "/dashboard",
+        "/facility",
+        "/facility/*",
+        "/profile",
+        "/change-password",
+    ]
+
+    const doctorUrl = [
+        "/appointment/*",
+        "/news",
+        "/news/*",
+        "/profile",
+        "/change-password",
+    ]
+
+    const managerUrl = [
+        "/",
+        "/facility-profile",
+        "/staff",
+        "/service/*",
+        "/profile",
+        "/change-password",
+    ]
+
+    const isTrueUrl = (pathname, urls) => {
+        return urls.some(url => {
+            if (url.includes('*')) {
+                const baseUrl = url.replace('/*', '');
+                return pathname.startsWith(baseUrl);
+            }
+            return pathname === url;
+        });
+    };
 
     const doctorMenu = [
         {
             key: '1',
             icon: <ScheduleOutlined/>,
-            label: 'Lịch khám',
-            onClick: () => navigate('/')
+            label: 'Lịch khám của bạn',
+            onClick: () => navigate('/appointment')
         },
         {
             key: '2',
@@ -112,6 +148,42 @@ const Layouts = () => {
         },
     ]
 
+    const adminMenu = [
+        {
+            key: '1',
+            icon: <ScheduleOutlined/>,
+            label: 'Thống kê',
+            onClick: () => navigate('/dashboard')
+        },
+        {
+            key: '2',
+            icon: <SnippetsOutlined/>,
+            label: 'Danh sách cs y tế',
+            onClick: () => navigate('/facility')
+        },
+        {
+            key: '3',
+            icon: <UserOutlined/>,
+            label: 'Hồ sơ cá nhân',
+            onClick: () => navigate('/profile')
+        }, {
+            key: '4',
+            icon: <KeyOutlined/>,
+            label: 'Đổi mật khẩu',
+            onClick: () => navigate('/change-password')
+        },
+        {
+            key: '5',
+            icon: <LogoutOutlined/>,
+            label: 'Đăng xuất',
+            onClick: () => {
+                localStorage.removeItem('token')
+                navigate('/login')
+            }
+        },
+
+    ]
+
     useEffect(() => {
         const getRole = async () => {
             if (!token) {
@@ -119,10 +191,20 @@ const Layouts = () => {
             } else {
                 try {
                     const res = await U.getRole();
-                    if (res && res.data) {
+                    if (res.status === 200 && res.data) {
                         setRole(res.data.role);
                         setName(res.data.name);
                         setAvatar(res.data.avatar);
+                        if(res.data.role == staffRole.ADMIN && !isTrueUrl(location.pathname, adminUrl)) {
+                            navigate('/dashboard');
+                        } else if(res.data.role == staffRole.DOCTOR && !isTrueUrl(location.pathname, doctorUrl)) {
+                            navigate('/');
+                        } else if(res.data.role == staffRole.MANAGER && !isTrueUrl(location.pathname, managerUrl)) {
+                            navigate('/');
+                        }
+                    } else {
+                        localStorage.removeItem('token');
+                        navigate('/login');
                     }
                 } catch (error) {
                     console.error(error);
@@ -151,7 +233,7 @@ const Layouts = () => {
                         mode="inline"
                         defaultSelectedKeys={['1']}
                         className={`mt-5`}
-                        items={role == staffRole.DOCTOR ? doctorMenu : managerMenu}
+                        items={role == staffRole.DOCTOR ? doctorMenu : role == staffRole.MANAGER ? managerMenu : adminMenu}
                     />
                 </Sider>
                 <Layout className="site-layout">

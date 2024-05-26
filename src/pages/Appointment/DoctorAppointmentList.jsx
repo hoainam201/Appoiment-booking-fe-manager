@@ -6,19 +6,22 @@ import {bookingStatus} from "../../utils/constant";
 import STAFF from "../../services/staffService";
 import {toast} from "react-toastify";
 import {FormattedDate} from "react-intl";
+import {useNavigate} from "react-router-dom";
 
 
 
 
-const AppointmentList = () => {
+const DoctorAppointmentList = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
-            const response = await STAFF.getFacilityBooking();
+            const response = await STAFF.doctorAppointment();
             if(response.status === 200) {
+                console.log(response.data);
                 setData(response.data);
                 setFilteredData(response.data);
             } else {
@@ -29,20 +32,6 @@ const AppointmentList = () => {
         }
     };
 
-    const hanldeAccept = async (id) => {
-        try {
-            const res = await STAFF.acceptBooking(id);
-            if(res.status === 200) {
-                toast.dismiss();
-                toast.success("Đã xác nhận");
-                fetchData();
-            } else {
-                toast.error(res.data.message);
-            }
-        } catch (e){
-            toast.error("Vui lòng thử lại sau");
-        }
-    }
 
     const hanldeReject = async (id) => {
         try {
@@ -132,28 +121,15 @@ const AppointmentList = () => {
             width: 250,
             fixed: 'right',
             render: (_, {status, id, facility_review_id, service_review_id}) => {
-                switch (status) {
-                    case 0:
-                        return (
-                            <>
-                                <Button shape="round" onClick={()=>hanldeAccept(id)}>Xác nhận</Button>
-                                <Button shape="round" onClick={()=>hanldeReject(id)} danger>Từ chối</Button>
-                            </>
-                        )
-                    case 3:
-                        return (
-                            <>
-                                <Button shape="round" disabled={facility_review_id == null && service_review_id == null}>Xem đánh giá</Button>
-                            </>
-                        )
-                    default:
-                        return (
-                            <div className="gap-2">
-                                <Button shape="round" disabled={true}>Xác nhận</Button>
-                                <Button shape="round" danger disabled={true}>Từ chối</Button>
-                            </div>
-                        )
-                }
+                return (
+                    <Button
+                        shape="round"
+                        size="large"
+                        onClick={() => navigate("/appointment/detail/" + id)}
+                    >
+                        Chi tiết
+                    </Button>
+                )
             },
         },
     ];
@@ -166,7 +142,9 @@ const AppointmentList = () => {
     useEffect(() => {
         setFilteredData(data);
         if (search != '') {
-            setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.trim().toLowerCase()) || item.service_name.toLowerCase().includes(search.trim().toLowerCase())));
+            setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.trim().toLowerCase())
+                || item.service_name.toLowerCase().includes(search.trim().toLowerCase())
+                || item.phone.toLowerCase().includes(search.trim().toLowerCase()) ));
         }
     }, [search]);
 
@@ -196,4 +174,4 @@ const AppointmentList = () => {
         </div>
     );
 };
-export default AppointmentList;
+export default DoctorAppointmentList;

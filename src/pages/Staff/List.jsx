@@ -39,18 +39,24 @@ export default function StaffList() {
     const handleSave = async () => {
         try {
             if (!name) {
+                toast.dismiss();
                 toast.error("Vui lòng điền đầy đủ thông tin");
                 return;
             }
+            toast.dismiss();
+            toast.loading("Đang thêm nhân viên");
             const res = await STAFF.createStaff({name, email, role});
             if (res.status === 201) {
+                toast.dismiss();
                 toast.success("Thêm nhân viên thành công");
                 fetchData();
                 handleClose();
             } else {
-                toast.error(res.data.message);
+                toast.dismiss();
+                toast.error("Thêm nhan viên thât baị, vui lòng thể thử lại sau");
             }
         } catch (e) {
+            toast.dismiss();
             toast.error("Thêm nhan viên thât baị, vui lòng thể thử lại sau");
         }
     }

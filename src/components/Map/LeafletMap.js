@@ -13,7 +13,7 @@ const LeafletMap = ({lat, lng}) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[lat, lng]} draggable={true} icon={ iconPerson }/>
+            <Marker position={[lat, lng]} draggable={false} icon={ iconPerson }/>
             <Fly lat={lat} lng={lng}/>
         </MapContainer>
     )

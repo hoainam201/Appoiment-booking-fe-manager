@@ -64,17 +64,23 @@ export default function Detail() {
 
     useEffect(() => {
         const fetchServiceData = async () => {
-            const res = await STAFF.getServiceById(id.id);
-            if (res.status === 200) {
-                setData(res.data);
-                setName(res.data.name);
-                setFee(res.data.fee);
-                setFile(res.data.file);
-                setType(res.data.type);
-                setImage(res.data.image);
-                setDescription(res.data.description);
-                setSpeciality(res.data.speciality);
-                setChargeOf(res.data.charge_of);
+            try {
+                const res = await STAFF.getServiceById(id.id);
+                if (res.status === 200) {
+                    console.log(res.data);
+                    setData(res.data);
+                    setName(res.data.name);
+                    setFee(res.data.fee);
+                    setFile(res.data.file);
+                    setType(res.data.type);
+                    setImage(res.data.image);
+                    setDescription(res.data.description);
+                    setSpeciality(res.data.speciality);
+                    setChargeOf(res.data.charge_of);
+                    setEditorMarkdownValue(res.data.description);
+                }
+            } catch (e) {
+                setData({});
             }
         }
         fetchServiceData();
@@ -158,7 +164,6 @@ export default function Detail() {
                 if (res.status === 200) {
                     toast.success("Cập nhật thành công");
                     setUpdate(false);
-
                 } else {
                     toast.error("Cập nhật thất bại, vui lòng thử lại sau");
                 }

@@ -65,13 +65,6 @@ const STAFF = {
         });
         return res;
     },
-    getFacilities: async (pageNumber) => {
-        let res = await publicHttp({
-            method: 'get',
-            url: '/health-facilities' + (pageNumber ? `?page=${pageNumber}` : '')
-        });
-        return res;
-    },
     getFacilityDetail: async (id) => {
         let res = await publicHttp({
             method: 'get',
@@ -100,24 +93,26 @@ const STAFF = {
         });
         return res;
     },
-    createGuide: async (title, content) => {
-        let res = await privateHttp({
+    createGuide: async (title, content, file) => {
+        let res = await formdataHttpConfig({
             method: 'post',
             url: '/news',
             data: {
                 title,
-                content
+                content,
+                file
             }
         });
         return res;
     },
-    updateGuide: async (id, title, content) => {
-        let res = await privateHttp({
+    updateGuide: async (id, title, content, file) => {
+        let res = await formdataHttpConfig({
             method: 'put',
             url: '/news/' + id,
             data: {
                 title,
-                content
+                content,
+                file
             }
         });
         return res;
@@ -146,7 +141,7 @@ const STAFF = {
     getAllStaff: async () => {
         let res = await privateHttp({
             method: 'get',
-            url: '/staff/get-all-staff'
+            url: '/staff/get-all-staff-by-facility'
         });
         return res;
     },
@@ -158,6 +153,18 @@ const STAFF = {
                 name,
                 email,
                 role
+            }
+        })
+        return res;
+    },
+    createManager: async ({id, name, email}) => {
+        let res = await privateHttp({
+            method: 'post',
+            url: '/staff/create-manager',
+            data: {
+                id,
+                name,
+                email,
             }
         })
         return res;
@@ -235,7 +242,7 @@ const STAFF = {
     getServiceById: async (id) => {
         let res = await publicHttp({
             method: 'get',
-            url: '/health-service/' + id
+            url: '/health-service/details/' + id
         });
         return res;
     },
@@ -259,6 +266,74 @@ const STAFF = {
         let res = await publicHttp({
             method: 'get',
             url: '/service-review/' + id + `?page=${page}`
+        });
+        return res;
+    },
+    getFacilities: async () => {
+        let res = await publicHttp({
+            method: 'get',
+            url: '/health-facilities/get-all'
+        });
+        return res;
+    },
+    createFacility: async ({email, name, address, phone, description, specialities, type, file, lat, lng}) => {
+        let res = await formdataHttpConfig({
+            method: 'post',
+            url: '/health-facilities/create',
+            data: {
+                email,
+                name,
+                address,
+                phone,
+                description,
+                specialities,
+                type,
+                file,
+                latitude: lat,
+                longitude: lng
+            },
+        });
+        return res;
+    },
+    getFacilityById: async (id) => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/health-facilities/get-by-admin/' + id
+        });
+        return res;
+    },
+    getFacilityBooking: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/booking/get-booking-by-manager'
+        });
+        return res;
+    },
+    doctorAppointment: async () => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/booking/get-booking-by-doctor/'
+        });
+        return res;
+    },
+    acceptBooking: async (id) => {
+        let res = await privateHttp({
+            method: 'put',
+            url: '/booking/accept/' + id
+        });
+        return res;
+    },
+    rejectBooking: async (id) => {
+        let res = await privateHttp({
+            method: 'put',
+            url: '/booking/reject/' + id
+        });
+        return res;
+    },
+    getAppointmentDetail: async (id) => {
+        let res = await privateHttp({
+            method: 'get',
+            url: '/booking/get-details/' + id
         });
         return res;
     }
