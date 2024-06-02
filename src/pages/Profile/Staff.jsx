@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 import {FormattedDate} from "react-intl";
 import avt from "../../assets/images/avt.png";
+import {specialitiesL, staffRole} from "../../utils/constant";
 
 
 const Staff = () => {
@@ -12,6 +13,8 @@ const Staff = () => {
     const [file, setFile] = useState(null);
     const [data, setData] = useState([]);
     const [avtUrl, setAvtUrl] = useState("");
+    const [speciality, setSpeciality] = useState("");
+    const [role, setRole] = useState("");
 
     const fetchData = async () => {
         try {
@@ -21,6 +24,8 @@ const Staff = () => {
                 setEmail(res.data.email);
                 setName(res.data.name);
                 setAvtUrl(res.data.avatar);
+                setSpeciality(res.data.speciality);
+                setRole(res.data.role);
                 console.log(res.data);
             } else {
                 toast.error("Không thể tải profile");
@@ -40,7 +45,7 @@ const Staff = () => {
                 toast.error("Vui lòng điền đầy đủ thông tin");
                 return;
             }
-            const res = await STAFF.updateProfile({name, file});
+            const res = await STAFF.updateProfile({name, file, speciality});
             if (res.status === 200) {
                 toast.success("Cập nhật profile thành công");
                 window.location.reload();
@@ -105,6 +110,21 @@ const Staff = () => {
                             </dd>
                         </div>
                     </dl>
+                    {role === staffRole.DOCTOR && <dl className="sm:divide-y sm:divide-gray-200">
+                        <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-500">
+                                Chuyên khoa
+                            </dt>
+                            <dd className="mt-1 h-8 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <select className="h-full focus:outline-gray-300 hover:outline-gray-300 w-full"
+                                       value={speciality} onChange={(e) => setSpeciality(e.target.value)}>
+                                    {specialitiesL.map((item, index) => (
+                                        <option key={index} value={item.id}>{item.name}</option>
+                                    ))}
+                                </select>
+                            </dd>
+                        </div>
+                    </dl>}
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-500">
                             Cập nhật lần cuối

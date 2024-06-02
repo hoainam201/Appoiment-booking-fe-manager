@@ -198,7 +198,7 @@ const Layouts = () => {
                         if(res.data.role == staffRole.ADMIN && !isTrueUrl(location.pathname, adminUrl)) {
                             navigate('/dashboard');
                         } else if(res.data.role == staffRole.DOCTOR && !isTrueUrl(location.pathname, doctorUrl)) {
-                            navigate('/');
+                            navigate('/appointment');
                         } else if(res.data.role == staffRole.MANAGER && !isTrueUrl(location.pathname, managerUrl)) {
                             navigate('/');
                         }

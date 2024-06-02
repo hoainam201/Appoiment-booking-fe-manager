@@ -13,7 +13,7 @@ import {serviceType, specialitiesL, staffRole} from "../../utils/constant";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import ReviewCard from "../../components/ReviewCard";
 import {FormattedDate} from "react-intl";
-import {Pagination} from 'antd';
+import {Empty, Pagination} from 'antd';
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -544,7 +544,9 @@ export default function Detail() {
                             </div>
                         </div>
                     )) :
-                    <p className="text-center text-lg ">Chưa có dữ liệu</p>
+                  <div>
+                    <Empty/>
+                  </div>
                 }
                 {total > 0 && <div className="w-full h-10 flex justify-center items-center">
                     <Pagination total={total} variant="outlined" onChange={(e) => {

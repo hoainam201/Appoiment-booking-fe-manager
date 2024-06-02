@@ -4,7 +4,7 @@ import {Routes, Route, BrowserRouter} from "react-router-dom";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ToastContainer} from 'react-toastify';
 import Layouts from "./layouts";
-import {NormalRoutes, AuthRoutes} from "./routes";
+import {NormalRoutes, AuthRoutes, ChatRoutes} from "./routes";
 import 'react-toastify/dist/ReactToastify.css';
 import { IntlProvider } from 'react-intl';
 
