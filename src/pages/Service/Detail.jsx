@@ -67,7 +67,6 @@ export default function Detail() {
             try {
                 const res = await STAFF.getServiceById(id.id);
                 if (res.status === 200) {
-                    console.log(res.data);
                     setData(res.data);
                     setName(res.data.name);
                     setFee(res.data.fee);

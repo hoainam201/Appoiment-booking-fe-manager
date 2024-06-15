@@ -87,6 +87,20 @@ const STAFF = {
     });
     return res;
   },
+  getNotification: async () => {
+    let res = await privateHttp({
+      method: 'get',
+      url: '/notification/all'
+    });
+    return res;
+  },
+  seeAll: async () => {
+    let res = await privateHttp({
+      method: 'get',
+      url: '/notification/see-all'
+    });
+    return res;
+  },
   getGuide: async () => {
     let res = await privateHttp({
       method: 'get',
@@ -146,14 +160,15 @@ const STAFF = {
     });
     return res;
   },
-  createStaff: async ({name, email, role}) => {
+  createStaff: async ({name, email, role, speciality}) => {
     let res = await privateHttp({
       method: 'post',
       url: '/staff/create',
       data: {
         name,
         email,
-        role
+        role,
+        speciality: speciality,
       }
     })
     return res;
@@ -266,7 +281,7 @@ const STAFF = {
   getReviewsByServiceId: async (id, page) => {
     let res = await publicHttp({
       method: 'get',
-      url: '/service-review/' + id + `?page=${page}`
+      url: '/service-review/service/' + id + (page ? `?page=${page}` : '')
     });
     return res;
   },
@@ -388,6 +403,48 @@ const STAFF = {
     let res = await privateHttp({
       method: 'put',
       url: '/booking/paid/' + id
+    });
+    return res;
+  },
+  changeActiveUser: async (id) => {
+    let res = await privateHttp({
+      method: 'put',
+      url: '/user/active/' + id
+    });
+    return res;
+  },
+  getAllUser: async () => {
+    let res = await privateHttp({
+      method: 'get',
+      url: '/user/all'
+    });
+    return res;
+  },
+  getReports: async (start, end) => {
+    let res = await privateHttp({
+      method: 'get',
+      url: '/report/get-report' + (start && end ? `?start=${start}&end=${end}` : '')
+    });
+    return res;
+  },
+  getFacilityReports: async () => {
+    let res = await privateHttp({
+      method: 'get',
+      url: '/report/get-report-facility'
+    });
+    return res;
+  },
+  getTotalReport: async () => {
+    let res = await privateHttp({
+      method: 'get',
+      url: '/report/get-report-total'
+    });
+    return res;
+  },
+  changeAciveService: async (id) => {
+    let res = await privateHttp({
+      method: 'put',
+      url: '/health-service/change-status/' + id
     });
     return res;
   },

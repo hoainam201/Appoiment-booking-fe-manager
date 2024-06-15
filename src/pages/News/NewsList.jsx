@@ -18,7 +18,12 @@ const NewsList = () => {
         const res = await STAFF.showGuide(id);
         if (res.status === 200) {
             toast.success("Cập nhật trạng thái thành công");
-            fetchData();
+            data.map((item) => {
+                if (item.id === id) {
+                    item.status = !item.status;
+                }
+            });
+            setData([...data]);
         } else {
             toast.error("Cập nhật trạng thái thất bại");
         }
@@ -28,7 +33,12 @@ const NewsList = () => {
         const res = await STAFF.hideGuide(id);
         if (res.status === 200) {
             toast.success("Cập nhật trạng thái thành công");
-            fetchData();
+          data.map((item) => {
+            if (item.id === id) {
+              item.status = !item.status;
+            }
+          });
+          setData([...data]);
         } else {
             toast.error("Cập nhật trạng thái thất bại");
         }

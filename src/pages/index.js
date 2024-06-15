@@ -17,6 +17,8 @@ import FacilityDetail from "./Facility/Detail";
 import FacilityCreate from "./Facility/Create";
 import DoctorAppointmentList  from "./Appointment/DoctorAppointmentList";
 import AppointmentDetail from "./Appointment/Detail";
+import UserList from "./User/List";
+import Dashboard from "./Dashboard";
 
 export {
     AppoimentList,
@@ -38,4 +40,6 @@ export {
     FacilityList,
     FacilityDetail,
     FacilityCreate,
+    UserList,
+    Dashboard,
 }

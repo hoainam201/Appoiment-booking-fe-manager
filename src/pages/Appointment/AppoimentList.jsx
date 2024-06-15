@@ -20,8 +20,6 @@ const AppointmentList = () => {
         console.log(response.data);
         setData(response.data);
         setFilteredData(response.data);
-      } else {
-        toast.error("Vui lòng thử lại sau");
       }
     } catch (error) {
       toast.error("Vui lòng thử lại sau");

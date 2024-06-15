@@ -208,11 +208,12 @@ const Detail = () => {
             key: 'action',
             fixed: 'right',
             width: 100,
-            render: (_, {id}) => {
+            render: (_, {id, status}) => {
                 return (
                     <IconButton
                         color="error"
                         onClick={() => handleRemoveDrug(id)}
+                        disabled={status !== 5}
                     >
                         <RemoveIcon/>
                     </IconButton>
@@ -315,13 +316,14 @@ const Detail = () => {
                         <p className="text-xl font-bold">Chẩn đoán</p>
                         <Button
                             size="small"
-                            disabled={description.length === 0 || description.trim() === data?.diagnosis.description}
+                            disabled={description.length === 0 || description.trim() === data?.diagnosis.description || data?.status !== 5}
                             onClick={handleSave}>Lưu</Button>
                     </div>
                     <textarea
                         className="w-full outline-1 border-2 border-gray-200 p-2 rounded-lg text-base focus:outline-blue-500"
                         placeholder="Chẩn đoán"
                         value={description}
+                        disabled={data?.status !== 5}
                         onChange={event => setDescription(event.target.value)}
                     />
                 </div>
