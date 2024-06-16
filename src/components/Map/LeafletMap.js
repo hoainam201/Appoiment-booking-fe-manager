@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'leaflet/dist/leaflet.css';
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {LocationMarker} from "./LocationMaker";
@@ -6,6 +6,9 @@ import {iconPerson} from "./icon";
 import {Fly} from "./Fly";
 
 const LeafletMap = ({lat, lng}) => {
+    useEffect(()=>{
+        console.log(lat, lng);
+    },[lat, lng]);
 
     return (
         <MapContainer center={[lat, lng]} zoom={15} scrollWheelZoom={false}>

@@ -17,6 +17,7 @@ import axios from "axios";
 import {useMapEvents} from "react-leaflet";
 import {toast} from "react-toastify";
 import {facilityType, specialitiesL} from "../../utils/constant";
+import {Fly} from "../../components/Map/Fly";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -71,6 +72,10 @@ const Facility = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // useEffect(()=>{
+    //   Fly({lat, lng});
+    // }, [lat, lng])
 
     const handleSubmit = async () => {
         if (!email || !name || !address || !phone || !description) {
@@ -173,6 +178,7 @@ const Facility = () => {
                             </dt>
                             <dd className="mt-1 h-8 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 <input className="h-full focus:outline-gray-300 hover:outline-gray-300 w-full"
+                                       onKeyDown={(e) => e.key === 'Enter' && fetchLocation()}
                                        value={address} onChange={(e) => setAddress(e.target.value)}/>
                             </dd>
                             <Button sx={{
