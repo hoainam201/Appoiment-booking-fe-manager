@@ -1,8 +1,5 @@
 import React from "react";
 import Rating from "@mui/material/Rating";
-import Button from "@mui/material/Button";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import {FormattedDate} from "react-intl";
 
 const ReviewCard = (props) => {
@@ -24,13 +21,6 @@ const ReviewCard = (props) => {
         </div>
         <div>{props.review?.comment}</div>
         <hr/>
-        <div className="flex my-1">
-          <Button
-            size="small"
-          >
-            Phản hồi
-          </Button>
-        </div>
       </div>
     </div>
   )

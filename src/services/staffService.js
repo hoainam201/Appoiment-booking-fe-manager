@@ -448,6 +448,13 @@ const STAFF = {
     });
     return res;
   },
+  getTotalRating: async (id) => {
+    let res = await publicHttp({
+      method: 'get',
+      url: '/service-review/rating/' + id
+    });
+    return res;
+  }
 }
 
 export default STAFF;

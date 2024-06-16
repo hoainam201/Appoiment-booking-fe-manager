@@ -184,7 +184,8 @@ const List = () => {
   useEffect(() => {
 
     if (search !== '') {
-      setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+      setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())
+      || parseInt(item.id) === parseInt(search)));
     } else {
       setFilteredData(data);
     }

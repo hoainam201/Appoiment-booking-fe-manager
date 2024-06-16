@@ -130,12 +130,12 @@ const AppointmentList = () => {
       onFilter: (value, record) => record.status === value,
       render: (_, {status, payment_status}) => (
         <>
-            <Tag color={bookingStatus[status].color}>
-              {bookingStatus[status].name}
-            </Tag>
-            <Tag color={payment_status ? 'green' : 'red'}>
-              {payment_status ? 'Đã thanh toán' : 'Chưa thanh toán'}
-            </Tag>
+          <Tag color={bookingStatus[status].color}>
+            {bookingStatus[status].name}
+          </Tag>
+          <Tag color={payment_status ? 'green' : 'red'}>
+            {payment_status ? 'Đã thanh toán' : 'Chưa thanh toán'}
+          </Tag>
         </>
       ),
     },
@@ -186,7 +186,9 @@ const AppointmentList = () => {
   useEffect(() => {
     setFilteredData(data);
     if (search != '') {
-      setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.trim().toLowerCase()) || item.service_name.toLowerCase().includes(search.trim().toLowerCase())));
+      setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.trim().toLowerCase())
+        || item.service_name.toLowerCase().includes(search.trim().toLowerCase())
+        || item.phone.toLowerCase().includes(search.trim().toLowerCase())));
     }
   }, [search]);
 
