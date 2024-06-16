@@ -361,7 +361,7 @@ export default function Detail() {
                 PaperProps: {
                   style: {
                     maxHeight: 200,
-                    width: 250,
+                    width: 400,
                   },
                 },
               }
@@ -370,7 +370,7 @@ export default function Detail() {
             onChange={(e) => setChargeOf(e.target.value)}
           >
             {doctors.length > 0 && doctors.map((item, index) => (
-              <MenuItem key={index} value={item.email}>{item.name}</MenuItem>
+              <MenuItem key={index} value={item.email}>{item.name}<span className="font-mono">-{item.email}</span></MenuItem>
             ))}
           </Select>
         </FormControl>
