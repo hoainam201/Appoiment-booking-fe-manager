@@ -168,6 +168,7 @@ export default function Create() {
                     className={`w-full outline-1 border-2 border-gray-200 p-2 rounded-lg text-base focus:outline-blue-500`}
                     type="text"
                     placeholder="Địa chỉ"
+                    onKeyDown={(e) => e.key === "Enter" && fetchLocation()}
                     value={address}
                     onChange={e => setAddress(e.target.value)}
                 />
