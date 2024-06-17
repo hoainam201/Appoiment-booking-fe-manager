@@ -18,6 +18,22 @@ const List = () => {
         navigate(`/facility/detail/${id}`);
     }
 
+    const handleActive = async (id) => {
+        let res = await STAFF.activeFacility(id);
+        if(res.status === 200) {
+            toast.dismiss();
+            toast.success(res.data.message);
+            data.forEach((item) => {
+                if(item.id === id) {
+                    item.active = !item.active;
+                }
+            });
+            setData([...data]);
+        } else {
+            toast.error(res.data.message);
+        }
+    }
+
     const columns = [
         {
             title: 'ID',
@@ -99,14 +115,18 @@ const List = () => {
             title: 'Hành động',
             dataIndex: 'status',
             fixed: 'right',
-            width: 250,
-            key: 'status, id',
-            render: (_, {id}) => {
+            width: 300,
+            key: 'active, id',
+            render: (_, {active, id}) => {
                 return (
                     <>
                         <Button
                             variant="contained"
                             onClick={() => handleEdit(id)}>Chi tiết</Button>
+                        <Button
+                            variant="outlined"
+                            onClick={() => handleActive(id)}
+                            style={{marginLeft: "10px"}}>{active ? "Dừng" : "Kích hoạt"}</Button>
                     </>
                 )
             }

@@ -17,7 +17,6 @@ const AppointmentList = () => {
     try {
       const response = await STAFF.getFacilityBooking();
       if (response.status === 200) {
-        console.log(response.data);
         setData(response.data);
         setFilteredData(response.data);
       }
@@ -46,13 +45,13 @@ const AppointmentList = () => {
       const res = await STAFF.rejectBooking(id);
       if (res.status === 200) {
         toast.dismiss();
-        toast.success("Đã xác nhận");
+        toast.success("Đã từ chối");
         fetchData();
       } else {
         toast.error(res.data.message);
       }
     } catch (e) {
-      toast.error("Vui là thử lại sau");
+      toast.error("Vui lòng thử lại sau");
     }
   }
 
@@ -61,7 +60,7 @@ const AppointmentList = () => {
       const res = await STAFF.paid(id);
       if (res.status === 200) {
         toast.dismiss();
-        toast.success("Đã xác nhận");
+        toast.success("Đã xác nhận thanh toán");
         fetchData();
       } else {
         toast.error(res.data.message);

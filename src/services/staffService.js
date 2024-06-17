@@ -454,6 +454,13 @@ const STAFF = {
       url: '/service-review/rating/' + id
     });
     return res;
+  },
+  activeFacility: async (id) => {
+    let res = await privateHttp({
+      method: 'put',
+      url: '/health-facilities/change-status/' + id
+    });
+    return res;
   }
 }
 
