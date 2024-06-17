@@ -153,7 +153,7 @@ const List = () => {
     }, []);
 
     useEffect(() => {
-        if (search !== '') {
+        if (search.trim() !== '') {
             setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
         } else {
             setFilteredData(data);
