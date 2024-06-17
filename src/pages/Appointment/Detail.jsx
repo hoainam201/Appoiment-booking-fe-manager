@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 import {Table} from "antd";
 import {toast} from "react-toastify";
 import IconButton from "@mui/material/IconButton";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import STAFF from "../../services/staffService";
 import {FormattedDate} from "react-intl";
 import {bookingStatus} from "../../utils/constant";
@@ -20,6 +20,8 @@ const Detail = () => {
     const id = useParams();
     const [prescription, setPrescription] = useState(null);
     const [description, setDescription] = useState("");
+    const [diagnosis, setDiagnosis] = useState("");
+    const navigate = useNavigate();
 
     const fetchPrescription = async () => {
         try {
@@ -59,15 +61,13 @@ const Detail = () => {
 
     const hanldeStart = async () => {
         try {
-            toast.dismiss();
-            toast.loading("Đang sửa thanh cách");
             const res = await STAFF.startBooking(id.id);
             if (res.status === 200) {
                 toast.dismiss();
-                toast.success("Đã xác nhận");
+                toast.success("Bắt đầu khám");
                 fetchData();
             } else {
-                // toast.dismiss();
+                toast.dismiss();
                 toast.error(res.data.message);
             }
         } catch (e) {
@@ -78,20 +78,25 @@ const Detail = () => {
 
     const handleComplete = async () => {
         try {
+          if(diagnosis.trim() === "") {
+              toast.dismiss();
+              toast.error("Vui lòng điền chẩn đoán");
+              return;
+          }
             toast.dismiss();
-            toast.loading("Đang hoàn thanh cách");
+            toast.loading("Đang hoàn");
             const res = await STAFF.completeBooking(id.id);
             if (res.status === 200) {
                 toast.dismiss();
-                toast.success("Đã hoàn thanh cách");
-                fetchData();
+                toast.success("Đã hoàn thành khám");
+                navigate(-1);
             } else {
                 toast.dismiss();
                 toast.error(res.data.message);
             }
         } catch (e) {
             toast.dismiss();
-            toast.error("Vui là thử được!");
+            toast.error("Vui lòng thử lại sau!");
         }
     }
 
@@ -162,6 +167,7 @@ const Detail = () => {
                 setData(response.data);
                 if (response.data.diagnosis) {
                     setDescription(response.data.diagnosis.description);
+                    setDiagnosis(response.data.diagnosis.description);
                     fetchPrescription();
                 }
             } else {
