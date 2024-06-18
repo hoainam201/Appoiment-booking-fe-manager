@@ -170,7 +170,7 @@ const Layouts = () => {
     {
       key: '6',
       icon: <SnippetsOutlined/>,
-      label: 'Quản lý người dùng',
+      label: 'Quản lý bệnh nhân',
       onClick: () => navigate('/user')
     },
     {
