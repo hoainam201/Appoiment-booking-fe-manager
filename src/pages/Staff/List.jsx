@@ -203,7 +203,7 @@ export default function StaffList() {
 
   useEffect(() => {
     if (search.trim() !== '') {
-      setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+      setFilteredData(data.filter((item) => item.name.toLowerCase().includes(search.trim().toLowerCase())));
     } else {
       setFilteredData(data);
     }

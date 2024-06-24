@@ -63,13 +63,16 @@ export default function CreatNews() {
             toast.loading("Đang tạo bài viết");
             const res = await STAFF.createGuide(title, content, file);
             if(res.status === 200) {
+                toast.dismiss();
                 toast.success("Tạo bài viết thành công");
                 navigate("/news");
             } else {
+                toast.dismiss();
                 toast.error("Tạo bài viết thất bại, vui lòng thử lại sau");
             }
         }
         catch (e) {
+            toast.dismiss();
             toast.error("Tạo bài viết thất bại, vui lòng thử lại sau");
         }
     }

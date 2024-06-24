@@ -161,7 +161,8 @@ const NewsList = () => {
     useEffect(() => {
 
         if (search.trim() !== '') {
-            setFilteredData(data.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())));
+            setFilteredData(data.filter((item) => item.title.toLowerCase().includes(search.trim().toLowerCase()) ||
+            parseInt(item.id) === parseInt(search.trim().toLowerCase())));
         } else {
             setFilteredData(data);
         }
