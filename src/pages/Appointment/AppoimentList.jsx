@@ -66,9 +66,17 @@ const AppointmentList = () => {
         toast.error(res.data.message);
       }
     } catch (e) {
-      toast.error("Vui là thử lại sau");
+      toast.error("Vui lòng thử lại sau");
     }
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 600000); // 600000ms = 10 phút
+
+    return () => clearInterval(interval); // Clear interval khi component unmount
+  }, []);
 
 
   const columns = [
