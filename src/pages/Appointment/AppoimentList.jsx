@@ -70,13 +70,6 @@ const AppointmentList = () => {
     }
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 600000); // 600000ms = 10 phút
-
-    return () => clearInterval(interval); // Clear interval khi component unmount
-  }, []);
 
 
   const columns = [

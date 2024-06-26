@@ -18,6 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from "@mui/material/IconButton";
 import {FormattedDate} from "react-intl";
 import socketIOClient from 'socket.io-client';
+import {toast} from "react-toastify";
 
 const SOCKET_SERVER_URL = process.env.REACT_APP_API_URL;
 
@@ -222,6 +223,7 @@ const Layouts = () => {
     socket.on('newBooking', (newBooking) => {
       // Cập nhật danh sách bookings hoặc thực hiện reload
       fetchNotification();
+      toast.success(newBooking);
       if (window.location.pathname === "/") {
         window.location.reload();
       }
@@ -275,13 +277,6 @@ const Layouts = () => {
     }
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchNotification();
-    }, 600000); // 600000ms = 10 phút
-
-    return () => clearInterval(interval); // Clear interval khi component unmount
-  }, []);
 
 
   return (
