@@ -17,6 +17,9 @@ import {staffRole} from "../utils/constant";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from "@mui/material/IconButton";
 import {FormattedDate} from "react-intl";
+import socketIOClient from 'socket.io-client';
+
+const SOCKET_SERVER_URL = process.env.REACT_APP_API_URL;
 
 const Layouts = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -28,6 +31,7 @@ const Layouts = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState([]);
+  const [facilityId, setFacilityId] = useState('');
 
   const adminUrl = [
     "/dashboard",
@@ -207,6 +211,28 @@ const Layouts = () => {
   }
 
   useEffect(() => {
+    const socket = socketIOClient(SOCKET_SERVER_URL);
+
+    if(!facilityId){
+      return;
+    }
+    // Tham gia vào phòng với facility_id
+    socket.emit('joinRoom', facilityId);
+
+    socket.on('newBooking', (newBooking) => {
+      // Cập nhật danh sách bookings hoặc thực hiện reload
+      fetchNotification();
+      if (window.location.pathname === "/") {
+        window.location.reload();
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [facilityId]);
+
+  useEffect(() => {
     const getRole = async () => {
       if (!token) {
         navigate('/login');
@@ -217,6 +243,7 @@ const Layouts = () => {
             setRole(res.data.role);
             setName(res.data.name);
             setAvatar(res.data.avatar);
+            setFacilityId(res.data.facility_id);
             if (res.data.role == staffRole.ADMIN && !isTrueUrl(location.pathname, adminUrl)) {
               navigate('/dashboard');
             } else if (res.data.role == staffRole.DOCTOR && !isTrueUrl(location.pathname, doctorUrl)) {
