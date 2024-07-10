@@ -64,6 +64,7 @@ export default function Detail() {
   const [openDialog, setOpenDialog] = useState(false);
   const [update, setUpdate] = useState(false);
   const [idReview, setIdReview] = useState("");
+  const [filterDoctors, setFilterDoctors] = useState([]);
 
   const fetchTotalRating = async () => {
     try {
@@ -72,7 +73,7 @@ export default function Detail() {
         setTotalRating(res.data);
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 
@@ -104,7 +105,7 @@ export default function Detail() {
     const fetchData = async () => {
       const res = await STAFF.getReviewsByServiceId(id.id, page);
       if (res.status === 200) {
-        console.log(res.data);
+        // console.log(res.data);
         setReviews(res.data.reviews);
         setTotal(res.data.total);
       } else {
@@ -194,6 +195,7 @@ export default function Detail() {
         const res = await STAFF.getDoctorList();
         if (res.status === 200) {
           setDoctors(res.data);
+          setFilterDoctors(res.data);
         }
       } catch (error) {
         console.error(error);
@@ -201,6 +203,10 @@ export default function Detail() {
     }
     fetchData();
   }, []);
+
+  useEffect(()=>{
+    setFilterDoctors(doctors.filter(doctor => doctor.speciality === speciality));
+  }, [update]);
 
   return (
     <div className="flex flex-col max-h-[75vh] overflow-y-auto">
@@ -266,7 +272,7 @@ export default function Detail() {
       <div className={`flex flex-col items-start`}>
         <p className={`text-xl font-bold`}>Tên dịch vụ</p>
         <input
-          disabled={!update}
+          disabled
           className={`w-full outline-1 border-2 border-gray-200 p-2 rounded-lg text-base focus:outline-blue-500`}
           type="text"
           placeholder="Tên dịch vụ"
@@ -278,7 +284,7 @@ export default function Detail() {
         <p className={`text-xl font-bold`}>Chi phí dịch vụ</p>
         <input
           className={`w-full outline-1 border-2 border-gray-200 p-2 rounded-lg text-base focus:outline-blue-500`}
-          type="text"
+          type="number"
           placeholder="(VND)"
           disabled={!update}
           value={fee}
@@ -299,7 +305,7 @@ export default function Detail() {
               maxHeight: 300,
               width: 250,
             }}
-            disabled={!update}
+            disabled={true}
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
@@ -314,7 +320,7 @@ export default function Detail() {
         >
           <InputLabel htmlFor="demo-simple-select-label2">Chuyên khoa</InputLabel>
           <Select
-            disabled={!update}
+            disabled={true}
             labelId="demo-simple-select-label2"
             id="demo-simple-select"
             variant="standard"
@@ -347,7 +353,7 @@ export default function Detail() {
         >
           <InputLabel htmlFor="demo-simple-select-label3">Bác sĩ</InputLabel>
           <Select
-            disabled={!update}
+            disabled={type === serviceType.DOCTOR || !update}
             labelId="demo-simple-select-label3"
             id="demo-simple-select"
             variant="standard"
@@ -369,7 +375,7 @@ export default function Detail() {
             value={chargeOf}
             onChange={(e) => setChargeOf(e.target.value)}
           >
-            {doctors.length > 0 && doctors.map((item, index) => (
+            {filterDoctors.length > 0 && filterDoctors.map((item, index) => (
               <MenuItem key={index} value={item.email}>{item.name}<span className="font-mono">-{item.email}</span></MenuItem>
             ))}
           </Select>
@@ -466,7 +472,7 @@ export default function Detail() {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const email = formJson.email;
-            console.log(email);
+            // console.log(email);
             handleClose();
           },
         }}
