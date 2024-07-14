@@ -242,7 +242,7 @@ const Detail = () => {
                     startIcon={<ArrowBackIosIcon/>}
                 >Quay lại</Button>
                 <h1 className="text-3xl font-bold text-center">Thông tin</h1>
-                {data?.status !== 1 ?
+                {data?.status !== 6 ?
                     <Button
                         sx={{
                             mr: 1,

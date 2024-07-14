@@ -70,6 +70,20 @@ const AppointmentList = () => {
     }
   }
 
+  const handleCheckin = async (id) => {
+    try {
+      const res = await STAFF.checkin(id);
+      if (res.status === 200) {
+        toast.dismiss();
+        toast.success("Đã checkint");
+        fetchData();
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (e) {
+      toast.error("Vui lòng thử lại sau");
+    }
+  }
 
 
   const columns = [
@@ -153,6 +167,10 @@ const AppointmentList = () => {
                 <Button shape="round" onClick={() => hanldeReject(id)} danger>Từ chối</Button>
               </>
             )
+          case 1:
+            return (
+              <Button shape="round" onClick={() => handleCheckin(id)}>Checkin</Button>
+            )
           case 3:
             return (
               <>
@@ -161,8 +179,7 @@ const AppointmentList = () => {
                     <></>
                   ) : <Button shape="round" disabled={status !== 3}
                               onClick={() => hanldePaid(id)}
-                  >Xác nhận thanh
-                    toán</Button>
+                  >Xác nhận thanh toán</Button>
                 }
               </>
             )

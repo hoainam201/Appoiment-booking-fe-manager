@@ -1,7 +1,7 @@
 export const bookingStatus = [
   {
     id: 0,
-    name: 'Đang chờ',
+    name: 'Chờ xác nhận',
     color: 'yellow',
   },
   {
@@ -28,7 +28,11 @@ export const bookingStatus = [
     id: 5,
     name: 'Đang khám',
     color: 'cyan',
-  },
+  },{
+    id: 6,
+    name: 'Chờ khám',
+    color: 'purple',
+  }
 ]
 
 export const staffRole = {

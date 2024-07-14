@@ -360,6 +360,13 @@ const STAFF = {
     });
     return res;
   },
+  checkin: async (id) => {
+    let res = await privateHttp({
+      method: 'put',
+      url: '/booking/checkin/' + id
+    });
+    return res;
+  },
   completeBooking: async (id) => {
     let res = await privateHttp({
       method: 'put',
